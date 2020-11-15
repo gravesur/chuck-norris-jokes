@@ -1,0 +1,39 @@
+.app {
+  font-family: 'Courier New', Courier, monospace;
+  text-align: center;
+  font-size: 1.6rem;
+  max-width: 114rem;
+  margin: 5rem auto 0 auto;
+}
+
+p {
+  margin: 3rem 8rem;
+  font-size: 1.8rem;
+  min-height: 12rem;
+  //width: 70rem;
+}
+
+.button {
+  color: rgba(0, 0, 0, 0.8);
+  margin-right: 2rem;
+  padding: 0.5rem;
+  font-size: inherit;
+  border-radius: 0.5rem;
+  background-color: white;
+  border-style: solid;
+  cursor: pointer;
+
+  &:hover {
+    background-color: grey;
+    color: white;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+}

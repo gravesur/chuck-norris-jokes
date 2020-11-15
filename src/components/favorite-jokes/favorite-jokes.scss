@@ -1,0 +1,26 @@
+.list {
+  //background-color: gray;
+  list-style: none;
+  margin: 3rem auto;
+  font-size: 1.8rem;
+  max-width: 50rem;
+
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+
+.list-item {
+  //background-color: white;
+  cursor: pointer;
+  padding: 1rem 1rem;
+  min-height: 5rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.15);
+  }
+}
