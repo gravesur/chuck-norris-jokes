@@ -25,6 +25,8 @@ interface RandomJokesProps {
 }
 
 const RandomJokes = (props: RandomJokesProps) => {
+  console.log('COMPONENT RENDERED!');
+
   // const jokes = ['a', 'b', 'c', 'd'];
 
   // const jokeIndex = jokes.findIndex((el) => el === 'd');
@@ -36,15 +38,49 @@ const RandomJokes = (props: RandomJokesProps) => {
   // console.log([...firstPart, ...lastPart]);
 
   const [showJokes, setShowJokes] = useState(false);
+  //const [switchS, setSwitchS] = useState(true);
 
   useEffect(() => {
+    console.log('USE EFFECT AT INITIAL RENDER FIRED!!!');
+
     props.fetchJoke();
 
-    const jokesFromStorage = localStorage.getItem('jokes')
-      ? JSON.parse(localStorage.getItem('jokes')!)
-      : [];
-    props.restoreJokesFromStorage(jokesFromStorage);
+    if (props.favoriteJokes.length === 0) {
+      const jokesFromStorage = localStorage.getItem('jokes')
+        ? JSON.parse(localStorage.getItem('jokes')!)
+        : [];
+
+      props.restoreJokesFromStorage(jokesFromStorage);
+    } else {
+      localStorage.setItem('jokes', JSON.stringify(props.favoriteJokes));
+    }
   }, []);
+
+  useEffect(() => {
+    console.log(
+      'USE EFFECT AT INITIAL RENDER AND EVERY RENDER WHEN CERTAIN PROPERTY CHANGED FIRED!!!'
+    );
+
+    console.log(props.favoriteJokes);
+
+    // if (
+    //   !localStorage.getItem('jokes') &&
+    //   JSON.parse(localStorage.getItem('jokes')!).length !== 0
+    // ) {
+    // }
+
+    // if (props.favoriteJokes.length !== 0) {
+    // }
+
+    localStorage.setItem('jokes', JSON.stringify(props.favoriteJokes));
+
+    //props.fetchJoke();
+
+    // const jokesFromStorage = localStorage.getItem('jokes')
+    //   ? JSON.parse(localStorage.getItem('jokes')!)
+    //   : [];
+    //props.restoreJokesFromStorage(jokesFromStorage);
+  }, [props.favoriteJokes]);
 
   const onStartStopButtonClicked = () => {
     clearFetchJokesEveryThreeSecInterval();
@@ -57,6 +93,8 @@ const RandomJokes = (props: RandomJokesProps) => {
   };
 
   const addDeleteJokeFromFavorites = (joke: string) => {
+    //setSwitchS(!switchS);
+
     if (props.favoriteJokes.includes(joke)) {
       console.log('JOKE IN FAVORITES!');
 

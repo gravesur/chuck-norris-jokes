@@ -13,7 +13,7 @@ import {
 import './favorite-jokes.scss';
 
 const FavoriteJokes = (props: any) => {
-  console.log(props.favoriteJokes);
+  //console.log(props.favoriteJokes);
 
   useEffect(() => {
     if (props.favoriteJokes.length === 0) {
@@ -28,6 +28,14 @@ const FavoriteJokes = (props: any) => {
     //console.log(props.favoriteJokes);
   }, []);
 
+  useEffect(() => {
+    console.log(localStorage);
+
+    console.log(props.favoriteJokes);
+
+    localStorage.setItem('jokes', JSON.stringify(props.favoriteJokes));
+  }, [props.favoriteJokes]);
+
   //console.log(localStorage);
 
   // const jokesArray =
@@ -38,7 +46,7 @@ const FavoriteJokes = (props: any) => {
 
   //console.log(jokesArray);
 
-  console.log(localStorage);
+  //console.log(localStorage);
 
   // if (props.favoriteJokes.length !== 0) {
   // }
@@ -59,9 +67,11 @@ const FavoriteJokes = (props: any) => {
 
   const addDeleteJokeFromFavorites = (joke: string) => {
     if (props.favoriteJokes.includes(joke)) {
-      console.log('JOKE IN FAVORITES!');
-
       props.deleteJokeFromFavorites(joke);
+
+      console.log(props.favoriteJokes);
+
+      localStorage.setItem('jokes', JSON.stringify(props.favoriteJokes));
     } else {
       props.addJokeToFavorites(props.joke);
     }
