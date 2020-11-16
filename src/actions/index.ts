@@ -33,12 +33,25 @@ export const addJokeToFavorites = (joke: string) => {
   };
 };
 
+export const deleteJokeFromFavorites = (joke: string) => {
+  return {
+    type: 'DELETE_JOKE_FROM_FAVORITES',
+    payload: joke,
+  };
+};
+
 export const restoreJokesFromStorage = (jokes: []) => {
   console.log('RESTORE JOKES FIRED!');
 
   return {
     type: 'RESTORE_JOKES_FROM_STORAGE',
     payload: jokes,
+  };
+};
+
+export const clearFavoritesJokesList = () => {
+  return {
+    type: 'CLEAR_FAVORITES_JOKES_LIST',
   };
 };
 

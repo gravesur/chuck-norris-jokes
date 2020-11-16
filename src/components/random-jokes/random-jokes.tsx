@@ -7,6 +7,8 @@ import {
   fetchJokesEveryThreeSec,
   clearFetchJokesEveryThreeSecInterval,
   addJokeToFavorites,
+  restoreJokesFromStorage,
+  deleteJokeFromFavorites,
 } from '../../actions';
 import { StoreState } from '../../reducers';
 
@@ -14,16 +16,34 @@ import './random-jokes.scss';
 
 interface RandomJokesProps {
   joke: string;
+  favoriteJokes: string[];
   fetchJoke: Function;
   fetchJokesEveryThreeSec: Function;
   addJokeToFavorites: Function;
+  restoreJokesFromStorage: Function;
+  deleteJokeFromFavorites: Function;
 }
 
 const RandomJokes = (props: RandomJokesProps) => {
+  // const jokes = ['a', 'b', 'c', 'd'];
+
+  // const jokeIndex = jokes.findIndex((el) => el === 'd');
+  // console.log(jokeIndex);
+
+  // const firstPart = jokes.slice(0, jokeIndex);
+  // const lastPart = jokes.slice(jokeIndex + 1);
+
+  // console.log([...firstPart, ...lastPart]);
+
   const [showJokes, setShowJokes] = useState(false);
 
   useEffect(() => {
     props.fetchJoke();
+
+    const jokesFromStorage = localStorage.getItem('jokes')
+      ? JSON.parse(localStorage.getItem('jokes')!)
+      : [];
+    props.restoreJokesFromStorage(jokesFromStorage);
   }, []);
 
   const onStartStopButtonClicked = () => {
@@ -36,6 +56,16 @@ const RandomJokes = (props: RandomJokesProps) => {
     }
   };
 
+  const addDeleteJokeFromFavorites = (joke: string) => {
+    if (props.favoriteJokes.includes(joke)) {
+      console.log('JOKE IN FAVORITES!');
+
+      props.deleteJokeFromFavorites(joke);
+    } else {
+      props.addJokeToFavorites(props.joke);
+    }
+  };
+
   return (
     <div className="random-jokes">
       <h1>Chuck Norris Jokes</h1>
@@ -45,9 +75,9 @@ const RandomJokes = (props: RandomJokesProps) => {
       </button>
       <button
         className="button"
-        onClick={() => props.addJokeToFavorites(props.joke)}
+        onClick={() => addDeleteJokeFromFavorites(props.joke)}
       >
-        Add To Favorites
+        Add / Delete
       </button>
       <button className="button" onClick={onStartStopButtonClicked}>
         Start / Stop
@@ -62,6 +92,7 @@ const RandomJokes = (props: RandomJokesProps) => {
 const mapStateToProps = (state: StoreState) => {
   return {
     joke: state.joke,
+    favoriteJokes: state.favoriteJokes,
   };
 };
 
@@ -69,4 +100,6 @@ export default connect(mapStateToProps, {
   fetchJoke,
   fetchJokesEveryThreeSec,
   addJokeToFavorites,
+  restoreJokesFromStorage,
+  deleteJokeFromFavorites,
 })(RandomJokes);

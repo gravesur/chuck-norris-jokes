@@ -3,7 +3,12 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { StoreState } from '../../reducers';
-import { addJokeToFavorites, restoreJokesFromStorage } from '../../actions';
+import {
+  addJokeToFavorites,
+  deleteJokeFromFavorites,
+  restoreJokesFromStorage,
+  clearFavoritesJokesList,
+} from '../../actions';
 
 import './favorite-jokes.scss';
 
@@ -46,26 +51,40 @@ const FavoriteJokes = (props: any) => {
 
   //console.log(favoriteJokes);
 
+  const clearFavoritesList = () => {
+    props.clearFavoritesJokesList();
+
+    localStorage.clear();
+  };
+
+  const addDeleteJokeFromFavorites = (joke: string) => {
+    if (props.favoriteJokes.includes(joke)) {
+      console.log('JOKE IN FAVORITES!');
+
+      props.deleteJokeFromFavorites(joke);
+    } else {
+      props.addJokeToFavorites(props.joke);
+    }
+  };
+
   const items = props.favoriteJokes.map((item: string) => {
-    return <li className="list-item">{item}</li>;
+    return (
+      <li
+        className="list-item"
+        onClick={() => addDeleteJokeFromFavorites(item)}
+      >
+        {item}
+      </li>
+    );
   });
 
   return (
     <div className="favorite-jokes">
       <h1>Favorite Jokes</h1>
       <ul className="list">{items}</ul>
-      <button className="button" onClick={() => localStorage.clear()}>
+      <button className="button" onClick={clearFavoritesList}>
         Clear Favorites List
       </button>
-
-      {/* <button
-        className="button"
-        onClick={() =>
-          localStorage.setItem('jokes', JSON.stringify(props.favoriteJokes))
-        }
-      >
-        Save List
-      </button> */}
 
       <button className="button">
         <Link to="/">To Random Jokes</Link>
@@ -75,8 +94,6 @@ const FavoriteJokes = (props: any) => {
 };
 
 const mapStateToProps = (state: StoreState) => {
-  //console.log(state.favoriteJokes);
-
   return {
     favoriteJokes: state.favoriteJokes,
   };
@@ -84,5 +101,7 @@ const mapStateToProps = (state: StoreState) => {
 
 export default connect(mapStateToProps, {
   addJokeToFavorites,
+  deleteJokeFromFavorites,
   restoreJokesFromStorage,
+  clearFavoritesJokesList,
 })(FavoriteJokes);
