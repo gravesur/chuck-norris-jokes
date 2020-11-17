@@ -1,6 +1,12 @@
 import axios from 'axios';
 import { Dispatch } from 'redux';
 
+export type FavoriteJokesActions =
+  | AddJokeToFavoritesAction
+  | DeleteJokeFromFavoritesAction
+  | RestoreJokesFromStorageAction
+  | ClearFavoritesJokesListAction;
+
 export interface FetchJokeAction {
   type: 'FETCH_JOKE';
   payload: string;
@@ -27,7 +33,7 @@ export const fetchJoke = () => {
   };
 };
 
-export interface AddJokeToFavoritesAction {
+interface AddJokeToFavoritesAction {
   type: 'ADD_JOKE_TO_FAVORITES';
   payload: string;
 }
@@ -39,6 +45,11 @@ export const addJokeToFavorites = (joke: string) => {
   };
 };
 
+interface DeleteJokeFromFavoritesAction {
+  type: 'DELETE_JOKE_FROM_FAVORITES';
+  payload: string;
+}
+
 export const deleteJokeFromFavorites = (joke: string) => {
   return {
     type: 'DELETE_JOKE_FROM_FAVORITES',
@@ -46,14 +57,21 @@ export const deleteJokeFromFavorites = (joke: string) => {
   };
 };
 
-export const restoreJokesFromStorage = (jokes: []) => {
-  console.log('RESTORE JOKES FIRED!');
+interface RestoreJokesFromStorageAction {
+  type: 'RESTORE_JOKES_FROM_STORAGE';
+  payload: string[];
+}
 
+export const restoreJokesFromStorage = (jokes: string[]) => {
   return {
     type: 'RESTORE_JOKES_FROM_STORAGE',
     payload: jokes,
   };
 };
+
+interface ClearFavoritesJokesListAction {
+  type: 'CLEAR_FAVORITES_JOKES_LIST';
+}
 
 export const clearFavoritesJokesList = () => {
   return {
@@ -64,7 +82,6 @@ export const clearFavoritesJokesList = () => {
 let fetchJokesEveryThreeSecInterval: any;
 
 export const fetchJokesEveryThreeSec = () => {
-  console.log('fetchJokesEveryThreeSec FIRED!!!');
   return (dispatch: Function) => {
     fetchJokesEveryThreeSecInterval = setInterval(() => {
       dispatch(fetchJoke());

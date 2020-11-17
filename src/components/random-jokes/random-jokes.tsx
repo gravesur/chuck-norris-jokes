@@ -66,10 +66,12 @@ const RandomJokes = (props: RandomJokesProps) => {
   return (
     <div className="random-jokes">
       <h1>Chuck Norris Jokes</h1>
-      <p>{props.joke}</p>
-      <button className="button">
-        <Link to="/favorite-jokes">To Favorites List</Link>
-      </button>
+      <p className="joke">{props.joke}</p>
+
+      <Link to="/favorite-jokes" className="link">
+        To Favorites List
+      </Link>
+
       <button
         className="button"
         onClick={() => addDeleteJokeFromFavorites(props.joke)}
