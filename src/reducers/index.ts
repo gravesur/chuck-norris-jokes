@@ -1,19 +1,21 @@
 import { combineReducers } from 'redux';
 
-import { FetchJokeAction, AddJokeToFavoritesAction } from '../actions';
-
-// import { FetchJokeAction } from '../actions';
+import { FetchJokeAction, FetchJokeErrorAction } from '../actions';
 
 export interface StoreState {
   joke: string;
-  //showJokes: boolean;
   favoriteJokes: string[];
 }
 
-const jokeReducer = (state: string = '', action: FetchJokeAction) => {
+const jokeReducer = (
+  state: string = '',
+  action: FetchJokeAction | FetchJokeErrorAction
+) => {
   switch (action.type) {
     case 'FETCH_JOKE':
       return action.payload;
+    case 'FETCH_JOKE_ERROR':
+      return 'Error retrieving joke';
     default:
       return state;
   }
@@ -44,17 +46,7 @@ const favotiteJokesReducer = (state: string[] = [], action: any) => {
   }
 };
 
-// const showJokesReducer = (state: boolean = false, action: any) => {
-//   switch (action.type) {
-//     case 'SHOW_JOKES':
-//       return !state;
-//     default:
-//       return state;
-//   }
-// };
-
 export default combineReducers<StoreState>({
   joke: jokeReducer,
-  //showJokes: showJokesReducer,
   favoriteJokes: favotiteJokesReducer,
 });

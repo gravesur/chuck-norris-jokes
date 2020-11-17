@@ -6,6 +6,10 @@ export interface FetchJokeAction {
   payload: string;
 }
 
+export interface FetchJokeErrorAction {
+  type: 'FETCH_JOKE_ERROR';
+}
+
 export const fetchJoke = () => {
   return async (dispatch: Dispatch) => {
     try {
@@ -15,8 +19,10 @@ export const fetchJoke = () => {
         type: 'FETCH_JOKE',
         payload: res.data.value,
       });
-    } catch (err) {
-      console.log(err.name);
+    } catch {
+      dispatch<FetchJokeErrorAction>({
+        type: 'FETCH_JOKE_ERROR',
+      });
     }
   };
 };
@@ -54,10 +60,6 @@ export const clearFavoritesJokesList = () => {
     type: 'CLEAR_FAVORITES_JOKES_LIST',
   };
 };
-
-// export const showJokesAction = () => {
-//   return { type: 'SHOW_JOKES' };
-// };
 
 let fetchJokesEveryThreeSecInterval: any;
 

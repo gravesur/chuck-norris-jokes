@@ -15,8 +15,11 @@ const App = () => {
   return (
     <Router>
       <div className="app">
-        <Route path="/" component={RandomJokes} exact />
-        <Route path="/favorite-jokes" component={FavoriteJokes} exact />
+        <Switch>
+          <Route path="/" component={RandomJokes} exact />
+          <Route path="/favorite-jokes" component={FavoriteJokes} exact />
+          <Redirect to="/" />
+        </Switch>
       </div>
     </Router>
   );

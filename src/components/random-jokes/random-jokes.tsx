@@ -25,24 +25,9 @@ interface RandomJokesProps {
 }
 
 const RandomJokes = (props: RandomJokesProps) => {
-  console.log('COMPONENT RENDERED!');
-
-  // const jokes = ['a', 'b', 'c', 'd'];
-
-  // const jokeIndex = jokes.findIndex((el) => el === 'd');
-  // console.log(jokeIndex);
-
-  // const firstPart = jokes.slice(0, jokeIndex);
-  // const lastPart = jokes.slice(jokeIndex + 1);
-
-  // console.log([...firstPart, ...lastPart]);
-
   const [showJokes, setShowJokes] = useState(false);
-  //const [switchS, setSwitchS] = useState(true);
 
   useEffect(() => {
-    console.log('USE EFFECT AT INITIAL RENDER FIRED!!!');
-
     props.fetchJoke();
 
     if (props.favoriteJokes.length === 0) {
@@ -57,29 +42,7 @@ const RandomJokes = (props: RandomJokesProps) => {
   }, []);
 
   useEffect(() => {
-    console.log(
-      'USE EFFECT AT INITIAL RENDER AND EVERY RENDER WHEN CERTAIN PROPERTY CHANGED FIRED!!!'
-    );
-
-    console.log(props.favoriteJokes);
-
-    // if (
-    //   !localStorage.getItem('jokes') &&
-    //   JSON.parse(localStorage.getItem('jokes')!).length !== 0
-    // ) {
-    // }
-
-    // if (props.favoriteJokes.length !== 0) {
-    // }
-
     localStorage.setItem('jokes', JSON.stringify(props.favoriteJokes));
-
-    //props.fetchJoke();
-
-    // const jokesFromStorage = localStorage.getItem('jokes')
-    //   ? JSON.parse(localStorage.getItem('jokes')!)
-    //   : [];
-    //props.restoreJokesFromStorage(jokesFromStorage);
   }, [props.favoriteJokes]);
 
   const onStartStopButtonClicked = () => {
@@ -93,11 +56,7 @@ const RandomJokes = (props: RandomJokesProps) => {
   };
 
   const addDeleteJokeFromFavorites = (joke: string) => {
-    //setSwitchS(!switchS);
-
     if (props.favoriteJokes.includes(joke)) {
-      console.log('JOKE IN FAVORITES!');
-
       props.deleteJokeFromFavorites(joke);
     } else {
       props.addJokeToFavorites(props.joke);
