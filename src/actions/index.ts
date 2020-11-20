@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { Dispatch } from 'redux';
 
+import { Joke } from '../types';
+
 export type FavoriteJokesActions =
   | AddJokeToFavoritesAction
   | DeleteJokeFromFavoritesAction
@@ -9,11 +11,12 @@ export type FavoriteJokesActions =
 
 export interface FetchJokeAction {
   type: 'FETCH_JOKE';
-  payload: string;
+  payload: Joke;
 }
 
 export interface FetchJokeErrorAction {
   type: 'FETCH_JOKE_ERROR';
+  payload: Joke;
 }
 
 export const fetchJoke = () => {
@@ -21,24 +24,34 @@ export const fetchJoke = () => {
     try {
       const res = await axios.get('https://api.chucknorris.io/jokes/random');
 
+      const joke = transformJoke(res);
+
       dispatch<FetchJokeAction>({
         type: 'FETCH_JOKE',
-        payload: res.data.value,
+        payload: joke,
       });
     } catch {
       dispatch<FetchJokeErrorAction>({
         type: 'FETCH_JOKE_ERROR',
+        payload: { id: 'e', value: 'Error Retrieving Joke :(' },
       });
     }
   };
 };
 
+const transformJoke = (res: any) => {
+  return {
+    id: res.data.id,
+    value: res.data.value,
+  };
+};
+
 interface AddJokeToFavoritesAction {
   type: 'ADD_JOKE_TO_FAVORITES';
-  payload: string;
+  payload: Joke;
 }
 
-export const addJokeToFavorites = (joke: string) => {
+export const addJokeToFavorites = (joke: Joke) => {
   return {
     type: 'ADD_JOKE_TO_FAVORITES',
     payload: joke,
@@ -50,19 +63,19 @@ interface DeleteJokeFromFavoritesAction {
   payload: string;
 }
 
-export const deleteJokeFromFavorites = (joke: string) => {
+export const deleteJokeFromFavorites = (id: string) => {
   return {
     type: 'DELETE_JOKE_FROM_FAVORITES',
-    payload: joke,
+    payload: id,
   };
 };
 
 interface RestoreJokesFromStorageAction {
   type: 'RESTORE_JOKES_FROM_STORAGE';
-  payload: string[];
+  payload: Joke[];
 }
 
-export const restoreJokesFromStorage = (jokes: string[]) => {
+export const restoreJokesFromStorage = (jokes: Joke[]) => {
   return {
     type: 'RESTORE_JOKES_FROM_STORAGE',
     payload: jokes,

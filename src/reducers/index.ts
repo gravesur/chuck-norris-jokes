@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 
+import { Joke } from '../types';
 import {
   FetchJokeAction,
   FetchJokeErrorAction,
@@ -7,26 +8,26 @@ import {
 } from '../actions';
 
 export interface StoreState {
-  joke: string;
-  favoriteJokes: string[];
+  joke: Joke;
+  favoriteJokes: Joke[];
 }
 
 const jokeReducer = (
-  state: string = '',
+  state: Joke = { id: 'i', value: 'Loading...' },
   action: FetchJokeAction | FetchJokeErrorAction
 ) => {
   switch (action.type) {
     case 'FETCH_JOKE':
       return action.payload;
     case 'FETCH_JOKE_ERROR':
-      return 'Error retrieving joke :(';
+      return action.payload;
     default:
       return state;
   }
 };
 
 const favotiteJokesReducer = (
-  state: string[] = [],
+  state: Joke[] = [],
   action: FavoriteJokesActions
 ) => {
   switch (action.type) {
@@ -38,7 +39,7 @@ const favotiteJokesReducer = (
       return [...state, action.payload];
 
     case 'DELETE_JOKE_FROM_FAVORITES':
-      const jokeIndex = state.findIndex((el: string) => el === action.payload);
+      const jokeIndex = state.findIndex((el: Joke) => el.id === action.payload);
 
       return [...state.slice(0, jokeIndex), ...state.slice(jokeIndex + 1)];
 

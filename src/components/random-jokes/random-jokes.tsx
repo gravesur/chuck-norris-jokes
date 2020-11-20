@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import { Joke } from '../../types';
 import {
   fetchJoke,
   fetchJokesEveryThreeSec,
@@ -15,13 +16,13 @@ import { StoreState } from '../../reducers';
 import './random-jokes.scss';
 
 interface RandomJokesProps {
-  joke: string;
-  favoriteJokes: string[];
+  joke: Joke;
+  favoriteJokes: Joke[];
   fetchJoke: Function;
   fetchJokesEveryThreeSec: Function;
-  addJokeToFavorites: Function;
-  restoreJokesFromStorage: Function;
-  deleteJokeFromFavorites: Function;
+  addJokeToFavorites: typeof addJokeToFavorites;
+  restoreJokesFromStorage: typeof restoreJokesFromStorage;
+  deleteJokeFromFavorites: typeof deleteJokeFromFavorites;
 }
 
 const RandomJokes = (props: RandomJokesProps) => {
@@ -55,9 +56,13 @@ const RandomJokes = (props: RandomJokesProps) => {
     }
   };
 
-  const addDeleteJokeFromFavorites = (joke: string) => {
-    if (props.favoriteJokes.includes(joke)) {
-      props.deleteJokeFromFavorites(joke);
+  const addDeleteJokeFromFavorites = (joke: Joke) => {
+    const index = props.favoriteJokes.findIndex(
+      (el: Joke) => el.id === joke.id
+    );
+
+    if (index > -1) {
+      props.deleteJokeFromFavorites(joke.id);
     } else {
       props.addJokeToFavorites(props.joke);
     }
@@ -66,24 +71,26 @@ const RandomJokes = (props: RandomJokesProps) => {
   return (
     <div className="random-jokes">
       <h1>Chuck Norris Jokes</h1>
-      <p className="joke">{props.joke}</p>
 
-      <Link to="/favorite-jokes" className="link">
-        To Favorites List
-      </Link>
+      <p className="joke">{props.joke.value}</p>
 
-      <button
-        className="button"
-        onClick={() => addDeleteJokeFromFavorites(props.joke)}
-      >
-        Add / Delete
-      </button>
-      <button className="button" onClick={onStartStopButtonClicked}>
-        Start / Stop
-      </button>
-      <button className="button" onClick={() => props.fetchJoke()}>
-        Next Joke
-      </button>
+      <div className="buttons">
+        <Link to="/favorite-jokes" className="link">
+          To Favorites List
+        </Link>
+        <button
+          className="button"
+          onClick={() => addDeleteJokeFromFavorites(props.joke)}
+        >
+          Add / Delete
+        </button>
+        <button className="button" onClick={onStartStopButtonClicked}>
+          Start / Stop
+        </button>
+        <button className="button" onClick={() => props.fetchJoke()}>
+          Next Joke
+        </button>
+      </div>
     </div>
   );
 };

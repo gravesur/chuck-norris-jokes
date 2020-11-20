@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { StoreState } from '../../reducers';
+import { Joke } from '../../types';
 import {
   deleteJokeFromFavorites,
   restoreJokesFromStorage,
@@ -12,11 +13,11 @@ import {
 import './favorite-jokes.scss';
 
 interface FavoriteJokesProps {
-  joke: string;
-  favoriteJokes: string[];
-  clearFavoritesJokesList: Function;
-  restoreJokesFromStorage: Function;
-  deleteJokeFromFavorites: Function;
+  joke: Joke;
+  favoriteJokes: Joke[];
+  clearFavoritesJokesList: typeof clearFavoritesJokesList;
+  restoreJokesFromStorage: typeof restoreJokesFromStorage;
+  deleteJokeFromFavorites: typeof deleteJokeFromFavorites;
 }
 
 const FavoriteJokes = (props: FavoriteJokesProps) => {
@@ -42,13 +43,14 @@ const FavoriteJokes = (props: FavoriteJokesProps) => {
     localStorage.clear();
   };
 
-  const items = props.favoriteJokes.map((item: string) => {
+  const items = props.favoriteJokes.map((item: Joke) => {
     return (
       <li
+        key={item.id}
         className="list-item"
-        onClick={() => props.deleteJokeFromFavorites(item)}
+        onClick={() => props.deleteJokeFromFavorites(item.id)}
       >
-        {item}
+        {item.value}
       </li>
     );
   });
@@ -59,13 +61,15 @@ const FavoriteJokes = (props: FavoriteJokesProps) => {
 
       <ul className="list">{items}</ul>
 
-      <button className="button" onClick={clearFavoritesList}>
-        Clear Favorites List
-      </button>
+      <div className="buttons">
+        <Link to="/" className="link">
+          To Random Jokes
+        </Link>
 
-      <Link to="/" className="link">
-        To Random Jokes
-      </Link>
+        <button className="button" onClick={clearFavoritesList}>
+          Clear Favorites List
+        </button>
+      </div>
     </div>
   );
 };

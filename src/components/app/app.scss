@@ -2,49 +2,74 @@
   font-family: 'Courier New', Courier, monospace;
   text-align: center;
   font-size: 1.6rem;
-  max-width: 114rem;
+  max-width: 80rem;
   margin: 12rem auto 5rem auto;
 
   .joke {
-    margin: 3rem 8rem;
+    margin: 6rem 5rem 3rem 5rem;
     font-size: 1.8rem;
     min-height: 12rem;
-  }
 
-  .button {
-    color: rgba(0, 0, 0, 0.8);
-    margin-right: 2rem;
-    padding: 0.5rem;
-    font-size: inherit;
-    border-radius: 0.5rem;
-    background-color: white;
-    border-style: solid;
-    cursor: pointer;
-
-    &:active {
-      background-color: grey;
-      color: white;
-    }
-
-    &:focus {
-      outline: none;
+    @media (max-width: 37em) {
+      margin: 6rem 2rem 2rem 2rem;
     }
   }
 
-  .link {
-    font-family: 'arial';
-    font-size: 1.6rem;
-    margin-right: 2rem;
-    color: rgba(0, 0, 0, 0.8);
-    padding: 0.5rem;
-    background-color: white;
-    border: 2px solid grey;
-    border-radius: 0.5rem;
-    text-decoration: none;
+  .buttons {
+    display: flex;
+    justify-content: center;
 
-    &:active {
-      background-color: grey;
-      color: white;
+    @media (max-width: 17em) {
+      flex-direction: column;
+    }
+
+    .button {
+      color: rgba(0, 0, 0, 0.8);
+      margin-right: 2rem;
+      padding: 0.5rem;
+      font-size: inherit;
+      border-radius: 0.5rem;
+      background-color: white;
+      border-style: solid;
+      cursor: pointer;
+
+      &:active {
+        background-color: grey;
+        color: white;
+      }
+
+      &:focus {
+        outline: none;
+      }
+
+      @media (max-width: 31em) {
+        margin-right: 0.5rem;
+      }
+
+      @media (max-width: 17em) {
+        margin-top: 0.5rem;
+      }
+    }
+
+    .link {
+      font-family: 'arial';
+      font-size: 1.6rem;
+      margin-right: 2rem;
+      color: rgba(0, 0, 0, 0.8);
+      padding: 0.5rem;
+      background-color: white;
+      border: 2px solid grey;
+      border-radius: 0.5rem;
+      text-decoration: none;
+
+      &:active {
+        background-color: grey;
+        color: white;
+      }
+
+      @media (max-width: 31em) {
+        margin-right: 0.5rem;
+      }
     }
   }
 }
